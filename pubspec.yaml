@@ -10,9 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  # Librerías para Clerk (Correctamente ubicadas)
+  
+  # Autenticación y Backend
+  supabase_flutter: ^2.12.0
+  # Si usas Clerk manualmente, estas son esenciales:
   http: ^1.6.0
   flutter_secure_storage: ^9.0.0
+  
+  # Deep Linking y Navegación (Necesario para el login con Google/Apple)
   url_launcher: ^6.2.0
   app_links: ^6.0.0
 
