@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiService {
-  final String baseUrl = "172.16.97.154"; // Ejemplo: http://10.0.2.2/api
+  final String baseUrl = "http://172.16.97.154"; // Ejemplo: http://10.0.2.2/api
   final _storage = const FlutterSecureStorage();
 
   Future<List<Alumno>> getAlumnos() async {
