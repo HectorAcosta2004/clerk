@@ -129,26 +129,49 @@ class LoginScreen extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  // En lib/main.dart
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Mi App Protegida"),
+        title: const Text("Lista de Alumnos"),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
               await const FlutterSecureStorage().delete(key: 'auth_token');
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const AuthGate()),
-              );
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthGate()));
             },
-          ),
+          )
         ],
       ),
-      body: const Center(
-        child: Text("¡Felicidades, Hector! Estás autenticado con Clerk."),
+      body: FutureBuilder<List<Alumno>>(
+        future: ApiService().getAlumnos(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text("Error: ${snapshot.error}"));
+          } else {
+            final alumnos = snapshot.data!;
+            return ListView.builder(
+              itemCount: alumnos.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: const Icon(Icons.person),
+                  title: Text(alumnos[index].nombre),
+                  subtitle: Text("Matrícula: ${alumnos[index].matricula}"),
+                  trailing: Text("Salón ID: ${alumnos[index].salonId}"),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }
+}
 }
